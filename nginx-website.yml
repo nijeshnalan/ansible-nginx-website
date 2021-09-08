@@ -11,7 +11,10 @@
     - name: "Install nginx"
       apt:
         update_cache: yes
-        name: nginx
+        name: 
+          - nginx
+          - php7.4-fpm
+          - php7.4-mysql
         state: latest
 
     - name: "Creating necessary directories"
@@ -45,6 +48,10 @@
 
     - name: "Restarting and Enabling nginx service"
       service:
-        name: nginx
+        name: "{{ item }}"
         state: restarted
         enabled: yes
+
+      with_items:
+        - nginx
+        - php7.4-fpm
